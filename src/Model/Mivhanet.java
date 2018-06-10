@@ -73,38 +73,28 @@ public class Mivhanet {
         }
         return false;
     }
-
-    public ArrayList<Course> getAllCourses(Semester s){
+    public ArrayList<Course> getAllCourses(){
         Connection conn = null;
         try {
             conn = SqliteHelper.getConn();
 
-            String query = "Select cisID,courseID From coursesInSemester WHERE semesterID=?;";
-
+            String query = "Select * From Courses";
             PreparedStatement ps=conn.prepareStatement(query);
-            ps.setString(1, s.getName());
-            ArrayList<Pair<String,String>> courses=new ArrayList<>();
+            ArrayList<Course> courses=new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                courses.add(new Pair(rs.getString("cisID"),rs.getString("courseID")));
+                courses.add(new Course(rs.getString("name"),rs.getString("courseID"),null,null,null));
             }
-            ArrayList<Course> returnCourses=new ArrayList<>();
-            for (Pair<String,String> course:courses) {
-                String query1 = "Select name From Courses WHERE courseID=?;";
-                PreparedStatement ps1=conn.prepareStatement(query);
-                ps1.setString(1, course.getValue());
-                ResultSet rs1 = ps.executeQuery();
-                while (rs1.next()) {
-                    returnCourses.add(new Course(rs1.getString("name"),course.getKey(),null,null,null));
-                }
-            }
-            return returnCourses;
-            
+            return courses;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
+
         }
-        return null;
+
     }
+
+
 
     public ArrayList<Question> getAllQuestionsList(String courseID){
         return null;
@@ -146,19 +136,80 @@ public class Mivhanet {
         return false;
     }
 
-    public static Course createNewCourse(ArrayList<String> staffID, String courseName){
+    public Course createNewCourse(ArrayList<String> staffID, String courseName){
         return null;
     }
 
-    public static void editQ(String qid,int time,int difficulty){
+    public void editQ(String qid,int time,int difficulty){
 
     }
+    public CourseInSemester getCourseInSemester(Course course,Semester semester){
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
 
-    public static ArrayList<Integer> getCourseGrades(String courseID,Semester s){ //TODO
-        return null;
+            String query = "Select cisID From coursesInSemester WHERE courseID=? AND semesterID=? ;";
+
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setString(1, course.getID());
+            ps.setString(2, semester.getName());
+            ArrayList<Course> courses=new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst() ) {
+                return null;
+            }
+            return new CourseInSemester(rs.getString("cisID"),null,course,semester,null,null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+    }
+    public ArrayList<Test> getCourseInSemesterTests(CourseInSemester course){
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
+
+            String query = "Select * From Test WHERE courseID=? ;";
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setString(1, course.getCisId());
+            ArrayList<Test> tests=new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                tests.add(new Test(null,null,null,null,null,null,null,rs.getString("TestID")));
+            }
+            return tests;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
     }
 
-    public static int getGrades(String c){
+    public ArrayList<Pair<Integer,Integer>> getCourseGrades(Test test){ //TODO
+
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
+
+            String query = "Select studentID, grade From studentsGrades WHERE testID=? ;";
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setString(1, test.getTestId());
+            ArrayList<Pair<Integer,Integer>> grades=new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                grades.add(new Pair(new Integer(Integer.parseInt(rs.getString("studentID"))),new Integer(rs.getInt("grade"))));
+            }
+            return grades;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+    }
+
+
+    public int getGrades(String c){
         return 0;
     }
 

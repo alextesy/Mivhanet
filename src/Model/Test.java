@@ -8,6 +8,7 @@ import java.util.Dictionary;
  * Created by drorsim on 14.4.2018.
  */
 public class Test {
+    private String testId;
     private TestDate testDate;
     private Dictionary<Question,Integer> gradeLegend;
     private Time time;
@@ -16,8 +17,8 @@ public class Test {
     private ArrayList<Lecturer> writers;
     private CourseInSemester courseInSemester;
 
-    public Test(TestDate testDate, Dictionary<Question, Integer> gradeLegend, Time time, Lecturer lecturercreate, ArrayList<Student> students, ArrayList<Lecturer> writers, CourseInSemester courseInSemester) {
-
+    public Test(TestDate testDate, Dictionary<Question, Integer> gradeLegend, Time time, Lecturer lecturercreate, ArrayList<Student> students, ArrayList<Lecturer> writers, CourseInSemester courseInSemester,String testId) {
+        this.testId=testId;
         this.testDate = testDate;
         this.gradeLegend = gradeLegend;
         this.time = time;
@@ -26,6 +27,15 @@ public class Test {
         this.writers = writers;
         this.courseInSemester = courseInSemester;
     }
+
+    public String getTestId() {
+        return testId;
+    }
+
+    public void setTestId(String testId) {
+        this.testId = testId;
+    }
+
 
     public TestDate getTestDate() {
         return testDate;

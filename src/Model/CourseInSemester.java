@@ -6,19 +6,30 @@ import java.util.ArrayList;
  * Created by drorsim on 14.4.2018.
  */
 public class CourseInSemester {
+    private String cisId;// added
     private CourseStaff cs;
     private Course course;
     private Semester semester;
     private Test[] testList = new Test[3];
     private ArrayList<Student> participents;
 
-    public CourseInSemester(CourseStaff cs, Course course, Semester semester, Test[] testList, ArrayList<Student> participents) {
+    public CourseInSemester(String cisId,CourseStaff cs, Course course, Semester semester, Test[] testList, ArrayList<Student> participents) {
         this.cs = cs;
+        this.cisId=cisId;// added
         this.course = course;
         this.semester = semester;
         this.testList = testList;
         this.participents = participents;
     }
+
+    public String getCisId() {
+        return cisId;
+    }
+
+    public void setCisId(String cisId) {
+        this.cisId = cisId;
+    }
+
 
     public CourseStaff getCs() {
         return cs;

@@ -1,7 +1,10 @@
 package Model;
 
+import javafx.util.Pair;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -51,10 +54,55 @@ public class Mivhanet {
     }
 
     public boolean login(String username,String password){
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
+
+            String query = "Select * From User Where userName=? AND Password=? ;";
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst() ) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
-    } //TODO
+    }
 
     public ArrayList<Course> getAllCourses(Semester s){
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
+
+            String query = "Select cisID,courseID From coursesInSemester WHERE semesterID=?;";
+
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setString(1, s.getName());
+            ArrayList<Pair<String,String>> courses=new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                courses.add(new Pair(rs.getString("cisID"),rs.getString("courseID")));
+            }
+            ArrayList<Course> returnCourses=new ArrayList<>();
+            for (Pair<String,String> course:courses) {
+                String query1 = "Select name From Courses WHERE courseID=?;";
+                PreparedStatement ps1=conn.prepareStatement(query);
+                ps1.setString(1, course.getValue());
+                ResultSet rs1 = ps.executeQuery();
+                while (rs1.next()) {
+                    returnCourses.add(new Course(rs1.getString("name"),course.getKey(),null,null,null));
+                }
+            }
+            return returnCourses;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

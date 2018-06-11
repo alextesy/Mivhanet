@@ -31,26 +31,39 @@ public class Mivhanet {
 
     }
 
-    public void addUser(User u){
+    public boolean addUser(User u){
         Connection conn = null;
         try {
             conn = SqliteHelper.getConn();
 
-        String query = "Insert INTO User VALUES(?, ?, ?, ?, ?, ?,?,?) ;";
-        PreparedStatement ps=conn.prepareStatement(query);
-        ps.setString(1, u.getID());
-        ps.setString(2, u.getUsername());
-        ps.setString(3, u.getPassword());
-        ps.setString(4, u.getName());
-        ps.setString(5, u.getLastname());
-        ps.setString(6, u.getAddress());
-        ps.setString(7, u.getPhonenum());
-        ps.setString(8, u.getEmail());
-        ps.executeUpdate();
+            String query1 = "Select * From User Where userName=? AND Password=? ;";
+            PreparedStatement ps1=conn.prepareStatement(query1);
+            ps1.setString(1, u.getUsername());
+            ps1.setString(2, u.getPassword());
+
+            ResultSet rs = ps1.executeQuery();
+            if (!rs.isBeforeFirst() ) {
+                String query = "Insert INTO User VALUES(?, ?, ?, ?, ?, ?,?,?) ;";
+                PreparedStatement ps=conn.prepareStatement(query);
+                ps.setString(1, u.getID());
+                ps.setString(2, u.getUsername());
+                ps.setString(3, u.getPassword());
+                ps.setString(4, u.getName());
+                ps.setString(5, u.getLastname());
+                ps.setString(6, u.getAddress());
+                ps.setString(7, u.getPhonenum());
+                ps.setString(8, u.getEmail());
+                ps.executeUpdate();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return false;
     }
 
     public int login(String username,String password){

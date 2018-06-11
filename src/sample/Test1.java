@@ -25,11 +25,13 @@ public class Test1 {
             }
 
         }
-        ArrayList<Semester> lior=alex.getAllSemesters();
+       /* ArrayList<Semester> lior=alex.getAllSemesters();
         for (Semester s1:
              lior) {
             System.out.println(s1.getName());
-        }
+        }*/
+        boolean flag = alex.addUser(new Student("liork1h","asd","","123","","","","",null,null,null));
+        System.out.println(flag);
         //if(alex.login("alex","1323"))
          //   System.out.println("Success");
         //alex.addUser(new Student("dorZ","Dor","Zion","dordor","5454548","beit shemesh","054-89567854","dor@post.bgu.ac.il",null,null,null));

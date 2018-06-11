@@ -109,6 +109,27 @@ public class Mivhanet {
 
     }
 
+    public ArrayList<Semester> getAllSemesters(){
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
+
+            String query = "Select * From Semesters";
+            PreparedStatement ps=conn.prepareStatement(query);
+            ArrayList<Semester> semesters=new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                semesters.add(new Semester(rs.getString("semesterID"),null,null,null));
+            }
+            return semesters;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+    }
+
 
 
     public ArrayList<Question> getAllQuestionsList(String courseID){

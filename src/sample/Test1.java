@@ -25,7 +25,11 @@ public class Test1 {
             }
 
         }
-
+        ArrayList<Semester> lior=alex.getAllSemesters();
+        for (Semester s1:
+             lior) {
+            System.out.println(s1.getName());
+        }
         //if(alex.login("alex","1323"))
          //   System.out.println("Success");
         //alex.addUser(new Student("dorZ","Dor","Zion","dordor","5454548","beit shemesh","054-89567854","dor@post.bgu.ac.il",null,null,null));

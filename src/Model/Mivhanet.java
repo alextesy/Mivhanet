@@ -53,7 +53,12 @@ public class Mivhanet {
 
     }
 
-    public boolean login(String username,String password){
+    public int login(String username,String password){
+        /*
+        0- Not registered
+        1- Not secretary but registered
+        2- secretary and registered
+         */
         Connection conn = null;
         try {
             conn = SqliteHelper.getConn();
@@ -65,13 +70,23 @@ public class Mivhanet {
 
             ResultSet rs = ps.executeQuery();
             if (!rs.isBeforeFirst() ) {
-                return false;
+                return 0;
             }
-            return true;
+            else {
+                String query1 = "Select * From Secretary where ID=? ;";
+                PreparedStatement ps1=conn.prepareStatement(query1);
+                ps1.setString(1, rs.getString("ID"));
+                ResultSet rs1 = ps1.executeQuery();
+                if(!rs1.isBeforeFirst())
+                {
+                    return 1;
+                }
+                return 2;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
     public ArrayList<Course> getAllCourses(){
         Connection conn = null;

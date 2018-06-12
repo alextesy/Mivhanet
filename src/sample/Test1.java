@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Test1 {
 
     public static void main(String[] args) throws Exception {
+
         Mivhanet alex=Mivhanet.getInstance();
         Semester s=new Semester("2018-2",null,null,null);
         Course c=new Course("data mining","1051",null, null,null);

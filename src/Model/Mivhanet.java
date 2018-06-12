@@ -54,12 +54,15 @@ public class Mivhanet {
                 ps.setString(7, u.getPhonenum());
                 ps.setString(8, u.getEmail());
                 ps.executeUpdate();
+                SendEmail.SendEmail(u.getEmail(),u.getUsername());
+
                 return true;
             }
             else
             {
                 return false;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by drorsim on 14.4.2018.
  */
-public abstract class User {
+public abstract class User implements Visited {
     private String username;
     private String name;
     private String lastname;
@@ -27,6 +27,10 @@ public abstract class User {
         this.phonenum = phonenum;
         this.email = email;
         this.logList = logList;
+    }
+
+    public static void  Visitor(Visited u){
+        u.create();
     }
 
     public static void checkEmail(String email){

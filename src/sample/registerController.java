@@ -1,8 +1,6 @@
 package sample;
 
-import Model.Mivhanet;
-import Model.Student;
-import Model.User;
+import Model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -39,8 +37,22 @@ public class registerController {
             String typeName = type.getValue().toString();//////////////////////////////////////here is the string of the type
             ///////////////////////////////////////////////////////////////////////////
             Mivhanet m =Mivhanet.getInstance();
-            Student u = new Student(username.getText().trim(),fname.getText().trim(),lname.getText().trim(),password.getText().trim(),id.getText().trim(),address.getText().trim(),phone.getText().trim(),email.getText().trim(),null,null,null);
-            m.addUser(u);
+            User v=null;
+            switch (typeName){
+                case "Student":
+                    v = new Student(username.getText().trim(),fname.getText().trim(),lname.getText().trim(),password.getText().trim(),id.getText().trim(),address.getText().trim(),phone.getText().trim(),email.getText().trim(),null,null,null);
+                    break;
+                case "Lecturer":
+                    v = new Lecturer(username.getText().trim(),fname.getText().trim(),lname.getText().trim(),password.getText().trim(),id.getText().trim(),address.getText().trim(),phone.getText().trim(),email.getText().trim(),null,null,null,null);
+                case "Secretary":
+                    v = new Secretary(username.getText().trim(),fname.getText().trim(),lname.getText().trim(),password.getText().trim(),id.getText().trim(),address.getText().trim(),phone.getText().trim(),email.getText().trim(),null,null);
+                case "Teaching Assistant":
+                    v = new teachingAssistant(username.getText().trim(),fname.getText().trim(),lname.getText().trim(),password.getText().trim(),id.getText().trim(),address.getText().trim(),phone.getText().trim(),email.getText().trim(),null,null,null);
+
+
+            }
+            //User.Visitor(v);
+            m.addUser(v);
             Stage s = (Stage)id.getScene().getWindow();
             s.close();
         }

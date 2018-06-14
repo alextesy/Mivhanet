@@ -54,8 +54,9 @@ public class Mivhanet {
                 ps.setString(7, u.getPhonenum());
                 ps.setString(8, u.getEmail());
                 ps.executeUpdate();
+                u.create();
                 SendEmail.SendEmail(u.getEmail(),u.getUsername());
-
+                new ActionLog("User has been created successfully", u,Logger.getInstance());
                 return true;
             }
             else
@@ -86,6 +87,8 @@ public class Mivhanet {
 
             ResultSet rs = ps.executeQuery();
             if (!rs.isBeforeFirst() ) {
+                new ActionLog("Somebody tried to login", null,Logger.getInstance());
+
                 return 0;
             }
             else {
@@ -95,10 +98,14 @@ public class Mivhanet {
                 ResultSet rs1 = ps1.executeQuery();
                 if(!rs1.isBeforeFirst())
                 {
+                    new ActionLog("Not secertary tried to login", null,Logger.getInstance());
                     return 1;
                 }
+                new ActionLog("Secertary logged in", null,Logger.getInstance());
+
                 return 2;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,6 +259,7 @@ public class Mivhanet {
             while (rs.next()) {
                 grades.add(new Pair(new Integer(Integer.parseInt(rs.getString("studentID"))),new Integer(rs.getInt("grade"))));
             }
+            new ActionLog("View grades",null,Logger.getInstance());
             return grades;
         } catch (Exception e) {
             e.printStackTrace();

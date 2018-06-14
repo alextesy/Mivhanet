@@ -12,10 +12,10 @@ public abstract class Log {
     private Logger logger;
 
     public Log(String content, User user, Logger logger) {
-
         this.content = content;
         this.user = user;
-        this.logger = logger;
+        this.logger=logger;
+        this.logger.addLog(this);
     }
 
     public String getContent() {

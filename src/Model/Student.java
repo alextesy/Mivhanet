@@ -1,4 +1,7 @@
 package Model;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -31,4 +34,17 @@ public class Student extends User {
     }
 
 
+    @Override
+    public void create() {
+        Connection conn = null;
+        try {
+            conn = SqliteHelper.getConn();
+            String query = "Insert INTO Students VALUES(?) ;";
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setString(1, this.getID());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
